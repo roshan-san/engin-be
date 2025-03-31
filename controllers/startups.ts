@@ -1,15 +1,24 @@
 import { Request, Response } from 'express';
 import { PrismaClient, Startup } from '@prisma/client';
-import { startupSchema } from '../zodSchemas';
 import { z } from 'zod';
+import {getUserIdByEmail} from "./helpers"
 
 const prisma = new PrismaClient();
 
 const createStartup = async (req: Request, res: Response) => {
   try {
-    const startupData = startupSchema.parse(req.body);
+    const startupData = (req.body);
+    const email = req.query.email
+    console.log(email);
+    const founderId=await getUserIdByEmail(email)
+    console.log(founderId);
+    
     const newStartup = await prisma.startup.create({
-      data: startupData,
+      data: {
+        ...startupData,
+        founderId:founderId
+      },
+      
     });
 
     res.status(201).json(newStartup);
