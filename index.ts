@@ -5,15 +5,14 @@ import cors from "cors"
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 4444;
+const port = 4444;
 
-app.use(express.json()); // For parsing JSON request bodies
-//cors
+app.use(express.json());
 app.use(cors(
   {
-    origin: "*", // Allow requests from your Next.js frontend
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allowed HTTP methods
-    credentials: true, // Allow cookies and authentication headers
+    origin: "*", 
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', 
+    credentials: true, 
   }
 ));
 app.use('/', router);
