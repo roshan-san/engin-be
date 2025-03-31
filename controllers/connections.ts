@@ -3,31 +3,6 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 import { Request, Response } from 'express';
-const getConnections = async (req: Request, res: Response) => {
-  try {
-    const { userId } = req.params;
-    console.log('userId:', userId);
-    
-
-    const connections = await prisma.connection.findMany({
-      where: {
-        OR: [
-          { senderId: parseInt(userId) },
-          { receiverId: parseInt(userId) },
-        ],
-        status: 'accepted',
-      },
-      include: {
-        sender: true,
-      },
-    });
-
-    res.status(200).json(connections);
-  } catch (error) {
-    console.error('Error getting connections:', error);
-    res.status(500).json({ error: 'Failed to get connections' });
-  }
-};
 
 const sendConnection = async (req:Request, res:Response) => {
   try {
@@ -35,10 +10,11 @@ const sendConnection = async (req:Request, res:Response) => {
 
     const connection = await prisma.connection.create({
       data: {
-        senderId,
-        receiverId,
-      },
-    });
+          senderId,
+          receiverId,
+          status: "pending"
+      }
+  });
 
     res.status(201).json(connection);
   } catch (error) {
@@ -66,4 +42,4 @@ const acceptConnection = async (req:Request, res:Response) => {
     res.status(500).json({ error: 'Failed to accept connection request' });
   }
 };
-export default {acceptConnection, getConnections, sendConnection}; 
+export default {acceptConnection, sendConnection}; 

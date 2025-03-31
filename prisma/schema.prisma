@@ -25,7 +25,8 @@ model User {
   startups         Startup[]
   investments      Investment[]
   jobApplications  JobApplication[]
-  connections      Connection[]
+  sentConnections Connection[] @relation("senderConnections")
+  receivedConnections Connection[] @relation("receiverConnections")
   collaborations   Collaboration[]
   experiences      UserExperience[]
 }
@@ -92,9 +93,11 @@ model Connection {
   receiverId  Int
   status      String  @default("pending")
   
-  sender      User    @relation(fields: [senderId], references: [id])
+  sender   User @relation("senderConnections", fields: [senderId], references: [id])
+  receiver User @relation("receiverConnections", fields: [receiverId], references: [id])
   
 }
+
 
 model JobRole {
   id    Int    @id @default(autoincrement())

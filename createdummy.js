@@ -688,7 +688,7 @@ async function createCollaborations(prisma) {
   }
 }
 createCollaborations(prisma);
-
+  
 async function createJobRoles(prisma) {
   for (const role of jobRoles) {
     await prisma.jobRole.create({

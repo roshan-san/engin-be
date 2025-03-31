@@ -11,15 +11,17 @@ router.post('/checkuser', userController.checkUser);
 router.get("/getuser", userController.getUser);
 router.get('/users', userController.users);
 
+router.get("/alluser/:id",userController.userall)
+
 
 router.post('/createstartup', startupController.createStartup);
 
 router.post('/sendconnect', connectionController.sendConnection);
-router.put('/acceptconnect', connectionController.acceptConnection);
+router.post('/acceptconnect', connectionController.acceptConnection);
 
-router.get('/connections/:userId', connectionController.getConnections);
+
 router.get("/test", (req, res) => {
-  res.json({ exist: true });
+  res.json({ message:"hell bro" });
 });
 
 export default router;
